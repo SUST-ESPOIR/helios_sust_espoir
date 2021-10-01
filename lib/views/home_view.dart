@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather/weather.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:helios/views/location.dart';
+
 import 'dart:async';
 
 class HomeView extends StatefulWidget {
@@ -19,7 +19,6 @@ class _HomeViewState extends State<HomeView> {
   double? celsius;
   WeatherFactory wf = WeatherFactory(api, language: Language.ENGLISH);
 
-  var position = determinePosition();
   Future<void> weatherdata() async {
     // Imagine that this function is fetching user info from another service or database.
     Weather w = await wf.currentWeatherByCityName("Dhaka");
