@@ -2,9 +2,15 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Network {
-  Map<String, double> _database = {};
+  final Map<String, double> _database = {};
 
-  Future<Map<String, double>> getData() async {
+  Future<Map<String, double>> getData(
+      {required String temporal,
+      required String parameter,
+      required double lat,
+      required double long,
+      required String start,
+      required String end}) async {
     http.Response response = await http.get(Uri.parse(
         "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=ALLSKY_SFC_SW_DWN&community=SB&longitude=91.783180&latitude=22.356852&start=20210901&end=20210930&format=JSON"));
 

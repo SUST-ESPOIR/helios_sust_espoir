@@ -4,7 +4,19 @@ import 'package:helios/networking.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class GraphBuilder extends StatefulWidget {
-  const GraphBuilder({Key? key}) : super(key: key);
+  final String temporal;
+  final String parameter;
+  final double lat;
+  final double long;
+  final String start;
+  final String end;
+  GraphBuilder(
+      {required this.temporal,
+      required this.parameter,
+      required this.lat,
+      required this.long,
+      required this.start,
+      required this.end});
 
   @override
   _GraphBuilderState createState() => _GraphBuilderState();
@@ -15,6 +27,7 @@ class _GraphBuilderState extends State<GraphBuilder> {
   Network network = Network();
   Map<String, double> database = {};
   List<DataModel> dataEntries = [];
+
   @override
   void initState() {
     super.initState();
@@ -28,7 +41,14 @@ class _GraphBuilderState extends State<GraphBuilder> {
   }
 
   Future<void> getData() async {
-    database = await network.getData();
+    database = await network.getData(
+      temporal: widget.temporal,
+      parameter: widget.parameter,
+      start: widget.start,
+      end: widget.end,
+      lat: widget.lat,
+      long: widget.long,
+    );
     dataEntry();
   }
 
