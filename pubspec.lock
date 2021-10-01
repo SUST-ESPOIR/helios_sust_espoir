@@ -156,8 +156,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.0"
-<<<<<<< HEAD
-=======
   js:
     dependency: transitive
     description:
@@ -165,7 +163,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
->>>>>>> 01792cd7da8781a377d57342db2660a994050843
   lints:
     dependency: transitive
     description:
@@ -194,8 +191,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
-<<<<<<< HEAD
-=======
   path_drawing:
     dependency: transitive
     description:
@@ -210,7 +205,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.1"
->>>>>>> 01792cd7da8781a377d57342db2660a994050843
   pedantic:
     dependency: transitive
     description:
@@ -218,8 +212,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.1"
-<<<<<<< HEAD
-=======
   petitparser:
     dependency: transitive
     description:
@@ -234,7 +226,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
->>>>>>> 01792cd7da8781a377d57342db2660a994050843
   sky_engine:
     dependency: transitive
     description: flutter
