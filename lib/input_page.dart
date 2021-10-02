@@ -21,11 +21,12 @@ class _InputPageState extends State<InputPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.yellow,
           title: const Center(
             child: Text("Solar Panel"),
           ),
         ),
-        backgroundColor: Colors.white24,
+        backgroundColor: Colors.yellow[100],
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -147,7 +148,7 @@ class _InputPageState extends State<InputPage> {
               child: Container(
                 child: Center(child: Text("SUBMIT")),
                 decoration: BoxDecoration(
-                    color: Colors.blueGrey,
+                    color: Colors.yellow,
                     borderRadius: BorderRadius.circular(25.0)),
                 height: 80,
                 width: double.infinity,
@@ -170,7 +171,7 @@ class ReusableWidget extends StatelessWidget {
       child: card,
       height: 50,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.yellow,
         borderRadius: BorderRadius.circular(15.0),
       ),
       margin: const EdgeInsets.all(5),
