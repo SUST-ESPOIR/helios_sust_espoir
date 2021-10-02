@@ -29,15 +29,23 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  http: ^0.13.3
+  syncfusion_flutter_charts: ^19.3.43
+  flutter_svg : ^0.22.0
+  weather: ^2.0.1
+  geocoding: ^2.0.1
+  geolocator: ^7.6.2
+  
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+
   flutter_spinkit: ^5.1.0
   http: ^0.13.3
   geolocator: ^7.6.2
   async: ^2.8.1
+
 
 dev_dependencies:
   flutter_test:
@@ -62,7 +70,6 @@ flutter:
   uses-material-design: true
   assets:
     - images/
-  #   - images/a_dot_ham.jpeg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

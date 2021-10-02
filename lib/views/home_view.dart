@@ -9,11 +9,13 @@ class HomeView extends StatefulWidget {
 
   final locationWeather;
 
+
   @override
   _HomeViewState createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
+
   WeatherModel weather = WeatherModel();
   late int temperature;
   late String weatherIcon;
@@ -23,9 +25,11 @@ class _HomeViewState extends State<HomeView> {
   late double longi;
   late double lat;
 
+
   @override
   void initState() {
     super.initState();
+
 
     updateUI(widget.locationWeather);
   }
@@ -65,6 +69,7 @@ class _HomeViewState extends State<HomeView> {
                 margin: const EdgeInsets.symmetric(
                     vertical: 10.0, horizontal: 25.0),
                 child: ListTile(
+
                     title: Text(
                       '$cityName, $country',
                       style: TextStyle(
@@ -94,6 +99,7 @@ class _HomeViewState extends State<HomeView> {
                             updateUI(weatherData);
                           }
                         }))),
+
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -112,7 +118,9 @@ class _HomeViewState extends State<HomeView> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
+
                       'Temperature: $temperature\u2103',
+
                       style: TextStyle(
                           color: Colors.teal.shade900,
                           fontFamily: 'Source Sans Pro',
@@ -122,8 +130,8 @@ class _HomeViewState extends State<HomeView> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Lat: ${lat.toStringAsFixed(2)}',
-                      style: TextStyle(
+     'Lat: ${lat.toStringAsFixed(2)}',
+         style: TextStyle(
                           color: Colors.teal.shade900,
                           fontFamily: 'Source Sans Pro',
                           fontSize: 20),
@@ -132,7 +140,11 @@ class _HomeViewState extends State<HomeView> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
+
                       'Long: ${longi.toStringAsFixed(2)}',
+
+                     
+
                       style: TextStyle(
                           color: Colors.teal.shade900,
                           fontFamily: 'Source Sans Pro',
@@ -151,6 +163,7 @@ class _HomeViewState extends State<HomeView> {
               margin: EdgeInsets.all(25),
               child: FlatButton(
                 child: const Text(
+
                   'my location',
                   style: TextStyle(fontSize: 15.0),
                 ),
@@ -160,6 +173,8 @@ class _HomeViewState extends State<HomeView> {
                   var weatherData = await weather.getLocationWeather();
                   updateUI(weatherData);
                 },
+
+
               ),
               height: 70,
             ),
