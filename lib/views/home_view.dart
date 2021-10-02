@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helios/graph_builder.dart';
+import 'package:helios/input_page.dart';
 import 'package:helios/utilities/constants.dart';
 import 'package:helios/services/weather.dart';
 import 'package:async/async.dart';
@@ -56,122 +57,132 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       child: SafeArea(
-        child: Column(
-          children: [
-            Card(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Card(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 25.0),
+                  child: ListTile(
+                      title: Text(
+                        '$cityName, $country',
+                        style: TextStyle(
+                          color: Colors.teal.shade900,
+                          fontFamily: 'Comfortaa',
+                          fontSize: 20,
+                        ),
+                      ),
+                      trailing: FlatButton(
+                          child: Icon(
+                            Icons.edit_location_alt_outlined,
+                            color: Colors.teal,
+                          ),
+                          textColor: Colors.black,
+                          onPressed: () async {
+                            var typedName = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return CityScreen();
+                                },
+                              ),
+                            );
+                            if (typedName != null) {
+                              var weatherData =
+                                  await weather.getCityWeather(typedName);
+                              updateUI(weatherData);
+                            }
+                          }))),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.yellow,
+                  ),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20),
+                  ),
                 ),
-                margin: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 25.0),
-                child: ListTile(
-                    title: Text(
-                      '$cityName, $country',
-                      style: TextStyle(
-                        color: Colors.teal.shade900,
-                        fontFamily: 'Comfortaa',
-                        fontSize: 20,
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.all(20.0),
+                margin: const EdgeInsets.only(left: 20.0, top: 30, right: 20.0),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Temperature: $temperature\u2103',
+                        style: TextStyle(
+                            color: Colors.teal.shade900,
+                            fontFamily: 'Source Sans Pro',
+                            fontSize: 20),
                       ),
                     ),
-                    trailing: FlatButton(
-                        child: Icon(
-                          Icons.edit_location_alt_outlined,
-                          color: Colors.teal,
-                        ),
-                        textColor: Colors.black,
-                        onPressed: () async {
-                          var typedName = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return CityScreen();
-                              },
-                            ),
-                          );
-                          if (typedName != null) {
-                            var weatherData =
-                                await weather.getCityWeather(typedName);
-                            updateUI(weatherData);
-                          }
-                        }))),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.yellow,
-                ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20),
-                ),
-              ),
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.all(20.0),
-              margin: const EdgeInsets.only(left: 20.0, top: 30, right: 20.0),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Temperature: $temperature\u2103',
-                      style: TextStyle(
-                          color: Colors.teal.shade900,
-                          fontFamily: 'Source Sans Pro',
-                          fontSize: 20),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Lat: ${lat.toStringAsFixed(2)}',
+                        style: TextStyle(
+                            color: Colors.teal.shade900,
+                            fontFamily: 'Source Sans Pro',
+                            fontSize: 20),
+                      ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Lat: ${lat.toStringAsFixed(2)}',
-                      style: TextStyle(
-                          color: Colors.teal.shade900,
-                          fontFamily: 'Source Sans Pro',
-                          fontSize: 20),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Long: ${longi.toStringAsFixed(2)}',
+                        style: TextStyle(
+                            color: Colors.teal.shade900,
+                            fontFamily: 'Source Sans Pro',
+                            fontSize: 20),
+                      ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Long: ${longi.toStringAsFixed(2)}',
-                      style: TextStyle(
-                          color: Colors.teal.shade900,
-                          fontFamily: 'Source Sans Pro',
-                          fontSize: 20),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
+                  ],
                 ),
               ),
-              margin: EdgeInsets.all(25),
-              child: FlatButton(
-                child: const Text(
-                  'my location',
-                  style: TextStyle(fontSize: 15.0),
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
                 ),
-                color: Color(0xffffd946),
-                textColor: Colors.black,
-                onPressed: () async {
-                  var weatherData = await weather.getLocationWeather();
-                  updateUI(weatherData);
-                },
+                margin: EdgeInsets.all(15),
+                child: ElevatedButton(
+                  child: const Text(
+                    'my location',
+                  ),
+                  onPressed: () async {
+                    var weatherData = await weather.getLocationWeather();
+                    updateUI(weatherData);
+                  },
+                ),
               ),
-              height: 70,
-            ),
-            GraphBuilder(
-                temporal: "daily",
-                parameter: "ALLSKY_SFC_SW_DWN",
-                lat: lat,
-                long: longi,
-                start: "20210801",
-                end: "20210901")
-          ],
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ElevatedButton(
+                  child: const Text('Solar Panel'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => InputPage()),
+                    );
+                  },
+                ),
+              ),
+              GraphBuilder(
+                  temporal: "daily",
+                  parameter: "ALLSKY_SFC_SW_DWN",
+                  lat: lat,
+                  long: longi,
+                  start: "20210801",
+                  end: "20210901")
+            ],
+          ),
         ),
       ),
     );
