@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:helios/views/home_view.dart';
+import 'package:helios/views/loading_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,9 +12,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: HomeView(),
-      ),
+      theme: ThemeData.dark(),
+      home: Scaffold(body: LoadingScreen()),
+
     );
   }
 }

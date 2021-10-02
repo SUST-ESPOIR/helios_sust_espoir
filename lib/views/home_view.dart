@@ -1,47 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:weather/weather.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-
-import 'dart:async';
+import 'package:helios/utilities/constants.dart';
+import 'package:helios/services/weather.dart';
+import 'package:async/async.dart';
+import 'city_screen.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+  HomeView({this.locationWeather});
+
+  final locationWeather;
+
 
   @override
   _HomeViewState createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
-  late Timer _everySecond;
-  String desired = "30";
-  static const api = "e6a8cf3bb9579b7f489624e2e3c6fa51";
-  double? celsius;
-  WeatherFactory wf = WeatherFactory(api, language: Language.ENGLISH);
 
-  Future<void> weatherdata() async {
-    // Imagine that this function is fetching user info from another service or database.
-    Weather w = await wf.currentWeatherByCityName("Dhaka");
-    celsius = w.temperature!.celsius;
-    desired = 'Temperature :' + celsius!.toStringAsFixed(2);
-  }
+  WeatherModel weather = WeatherModel();
+  late int temperature;
+  late String weatherIcon;
+  late String cityName;
+  late String country;
+  late String weatherMessage;
+  late double longi;
+  late double lat;
+
 
   @override
   void initState() {
     super.initState();
 
-    // sets first value
 
-    weatherdata();
+    updateUI(widget.locationWeather);
+  }
 
-    // defines a timer
-    _everySecond = Timer.periodic(Duration(seconds: 1), (Timer t) {
-      setState(() {
-        weatherdata();
-        int i = 0;
-        if (celsius != null)
-          desired = 'Temperature : ' + celsius!.toStringAsFixed(2) + "\u2103";
-      });
+  void updateUI(dynamic weatherData) {
+    setState(() {
+      if (weatherData == null) {
+        temperature = 0;
+        return;
+      }
+      double temp = weatherData['main']['temp'];
+      longi = weatherData['coord']['lon'];
+      lat = weatherData['coord']['lat'];
+      temperature = temp.toInt();
+      cityName = weatherData['name'];
+      country = weatherData['sys']['country'];
     });
   }
 
@@ -65,19 +69,37 @@ class _HomeViewState extends State<HomeView> {
                 margin: const EdgeInsets.symmetric(
                     vertical: 10.0, horizontal: 25.0),
                 child: ListTile(
-                  title: Text(
-                    "Dhaka, Bangladesh",
-                    style: TextStyle(
-                      color: Colors.teal.shade900,
-                      fontFamily: 'Source Sans Pro',
-                      fontSize: 20,
+
+                    title: Text(
+                      '$cityName, $country',
+                      style: TextStyle(
+                        color: Colors.teal.shade900,
+                        fontFamily: 'Comfortaa',
+                        fontSize: 20,
+                      ),
                     ),
-                  ),
-                  trailing: const Icon(
-                    Icons.edit_location_alt_outlined,
-                    color: Colors.teal,
-                  ),
-                )),
+                    trailing: FlatButton(
+                        child: Icon(
+                          Icons.edit_location_alt_outlined,
+                          color: Colors.teal,
+                        ),
+                        textColor: Colors.black,
+                        onPressed: () async {
+                          var typedName = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return CityScreen();
+                              },
+                            ),
+                          );
+                          if (typedName != null) {
+                            var weatherData =
+                                await weather.getCityWeather(typedName);
+                            updateUI(weatherData);
+                          }
+                        }))),
+
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -96,7 +118,9 @@ class _HomeViewState extends State<HomeView> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      desired,
+
+                      'Temperature: $temperature\u2103',
+
                       style: TextStyle(
                           color: Colors.teal.shade900,
                           fontFamily: 'Source Sans Pro',
@@ -106,8 +130,8 @@ class _HomeViewState extends State<HomeView> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Long: 23',
-                      style: TextStyle(
+     'Lat: ${lat.toStringAsFixed(2)}',
+         style: TextStyle(
                           color: Colors.teal.shade900,
                           fontFamily: 'Source Sans Pro',
                           fontSize: 20),
@@ -116,7 +140,11 @@ class _HomeViewState extends State<HomeView> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Lat: 90',
+
+                      'Long: ${longi.toStringAsFixed(2)}',
+
+                     
+
                       style: TextStyle(
                           color: Colors.teal.shade900,
                           fontFamily: 'Source Sans Pro',
@@ -135,12 +163,18 @@ class _HomeViewState extends State<HomeView> {
               margin: EdgeInsets.all(25),
               child: FlatButton(
                 child: const Text(
-                  'Advanced Data',
-                  style: TextStyle(fontSize: 20.0),
+
+                  'my location',
+                  style: TextStyle(fontSize: 15.0),
                 ),
                 color: Color(0xffffd946),
                 textColor: Colors.black,
-                onPressed: () {},
+                onPressed: () async {
+                  var weatherData = await weather.getLocationWeather();
+                  updateUI(weatherData);
+                },
+
+
               ),
               height: 70,
             ),
