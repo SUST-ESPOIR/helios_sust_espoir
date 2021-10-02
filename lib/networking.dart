@@ -17,8 +17,7 @@ class Network {
     if (response.statusCode == 200) {
       String data = response.body;
       var decodedData = jsonDecode(data);
-      decodedData["properties"]["parameter"]["ALLSKY_SFC_SW_DWN"]
-          .forEach((key, value) {
+      decodedData["properties"]["parameter"][parameter].forEach((key, value) {
         if (value == -999.0) {
           _database[key] = 0;
         } else {

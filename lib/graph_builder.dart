@@ -27,6 +27,7 @@ class _GraphBuilderState extends State<GraphBuilder> {
   Network network = Network();
   Map<String, double> database = {};
   List<DataModel> dataEntries = [];
+  TrackballBehavior _trackballBehavior = TrackballBehavior();
 
   @override
   void initState() {
@@ -37,6 +38,10 @@ class _GraphBuilderState extends State<GraphBuilder> {
       zoomMode: ZoomMode.x,
       enablePanning: true,
     );
+    _trackballBehavior = TrackballBehavior(
+        enable: true,
+        tooltipSettings:
+            const InteractiveTooltip(format: 'point.x : point.y W/m^2'));
     getData();
   }
 
@@ -63,14 +68,21 @@ class _GraphBuilderState extends State<GraphBuilder> {
   @override
   Widget build(BuildContext context) {
     return SfCartesianChart(
+      title: ChartTitle(text: "Solar Irradiance"),
+      backgroundColor: Colors.white,
       enableAxisAnimation: true,
       zoomPanBehavior: _zoomPanBehavior,
+      trackballBehavior: _trackballBehavior,
       primaryXAxis: DateTimeAxis(),
+      primaryYAxis: NumericAxis(
+        labelFormat: '{value} W/m^2',
+      ),
       series: <ChartSeries>[
         LineSeries<DataModel, DateTime>(
           dataSource: dataEntries,
           xValueMapper: (DataModel data, _) => data.time,
           yValueMapper: (DataModel data, _) => data.value,
+          enableTooltip: true,
         ),
       ],
     );
